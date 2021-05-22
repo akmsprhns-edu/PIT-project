@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,12 @@ namespace WebApp.Controllers
         public IActionResult Ping()
         {
             return Ok("Pong");
+        }
+
+        [HttpGet("[action]"), Authorize]
+        public IActionResult AuthPing()
+        {
+            return Ok("You are authorized!");
         }
     }
 }

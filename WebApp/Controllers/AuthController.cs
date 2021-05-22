@@ -2,9 +2,12 @@
 using Application.Core.DbEntities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WebApp.Models;
 using WebApp.Utils;
@@ -16,9 +19,11 @@ namespace WebApp.Controllers
     public class AuthController : Controller
     {
         private readonly MainDbContext _dbContext;
-        public AuthController(MainDbContext dbContext)
+        private readonly IConfiguration _configuration;
+        public AuthController(MainDbContext dbContext, IConfiguration configuration)
         {
             _dbContext = dbContext;
+            _configuration = configuration;
         }
 
         [HttpPost("[action]")]
@@ -49,8 +54,8 @@ namespace WebApp.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Login([FromBody] RegisterCredentialsModel creds)
         {
-            var existingUser = await _dbContext.AppUsers.FirstOrDefaultAsync(x => x.Email == creds.Email);
-            if (existingUser == null)
+            var user = await _dbContext.AppUsers.FirstOrDefaultAsync(x => x.Email == creds.Email);
+            if (user == null)
             {
                 return Json(new BaseResponseModel()
                 {
@@ -59,7 +64,7 @@ namespace WebApp.Controllers
                 });
             }
 
-            if(existingUser.PasswordHash != AuthUtils.GetHashString(creds.Password)){
+            if(user.PasswordHash != AuthUtils.GetHashString(creds.Password)){
                 return Json(new BaseResponseModel()
                 {
                     Success = false,
@@ -69,9 +74,12 @@ namespace WebApp.Controllers
 
             return Json(new LoginResponseModel()
             {
-                Token = "eeee"
+                Token = AuthUtils.GenerateJSONWebToken(_configuration["Jwt:Key"]),
+                Email = user.Email
             });
         }
+
+        
 
 
     }

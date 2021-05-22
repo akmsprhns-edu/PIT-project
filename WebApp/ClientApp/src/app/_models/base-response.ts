@@ -1,6 +1,4 @@
-
-export class BaseResponse{
+export interface BaseResponse{
   success: boolean;
   error?: string;
-  
 }

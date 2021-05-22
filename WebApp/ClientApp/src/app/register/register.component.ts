@@ -4,7 +4,7 @@ import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { BaseResponse } from '../common';
+import { BaseResponse } from '../_models/base-response';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {

@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient, private router: Router) {
+  }
 
   ngOnInit(): void {
   }
 
+  public pingAuth(){
+    this.httpClient.get<string>(environment.baseUrl + '/Api/App/AuthPing').subscribe(result => {
+      console.log(result)
+    }, error => {
+      console.error(error);
+    })
+  }
 }

@@ -8,5 +8,6 @@ namespace WebApp.Models
     public class LoginResponseModel : BaseResponseModel
     {
         public string Token { get; set; }
+        public string Email { get; set; }
     }
 }

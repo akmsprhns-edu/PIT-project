@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { BaseResponse } from '../common';
+import { LoginCredentials } from '../_models/login-credentials';
+import { AuthenticationService } from '../_services/authentication.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -21,7 +20,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -51,23 +50,20 @@ export class LoginComponent implements OnInit {
       let creds = <LoginCredentials> this.form.value ;
       
       this.inProgress = true;
-      this.httpClient.post<BaseResponse>(environment.baseUrl + '/Api/Auth/Login', creds).subscribe(result => {
-        if(!result.success){
-          this.formError = result.error;
-        } else {
-          this.router.navigateByUrl('/')
-        }
-        this.inProgress = false;
-      }, error => {
-        console.error(error);
-        this.inProgress = false;
-      })
+      this.authenticationService.login(creds)
+            //.pipe(first())
+            .subscribe(result => {
+              if(!result.success){
+                this.formError = result.error;
+              } else {
+                this.router.navigateByUrl('/')
+              }
+              this.inProgress = false;
+            }, error => {
+              console.error(error);
+              this.inProgress = false;
+            })
     }
   }
 }
 
-class LoginCredentials {
-  email: string;
-  password: string;
-  repeatPassword: string;
-}
