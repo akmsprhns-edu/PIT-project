@@ -1,1 +1,35 @@
-<p>register works!</p>
+
+<form class="register-form" [formGroup]="form" (ngSubmit)="submit()">
+  <mat-error *ngIf="formError">
+    {{formError}}
+  </mat-error>
+  <mat-form-field class="full-width">
+    <mat-label>E-pasts</mat-label>
+    <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
+           placeholder="Ex. pat@example.com">
+    <mat-error *ngIf="form.controls.email.hasError('email') && !form.controls.email.hasError('required')">
+      Nepareizs epasta formāts 
+    </mat-error>
+    <mat-error *ngIf="form.controls.email.hasError('required')">
+      Ievadiet E-pastu!
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Parole</mat-label>
+    <input type="password" matInput formControlName="password" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="form.controls.password.hasError('required')">
+      Ievadiet Paroli!
+    </mat-error>
+    <mat-error *ngIf="form.controls.password.hasError('minlength')">
+      Parolē jābūt vismaz 8 simboliem!
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Parole vēlreiz</mat-label>
+    <input type="password" matInput formControlName="repeatPassword" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="form.controls.repeatPassword.hasError('required')">
+      Ievadiet Paroli vēlreiz!
+    </mat-error>
+  </mat-form-field>
+  <button mat-stroked-button type="submit" [disabled]="!form.valid || inProgress">Submit</button>
+</form>

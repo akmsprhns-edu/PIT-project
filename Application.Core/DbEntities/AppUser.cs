@@ -11,6 +11,9 @@ namespace Application.Core.DbEntities
     {
         [Key]
         public long Id { get; set; }
+
+        [Required]
+        public string Email { get; set; }
         [Required]
         public string PasswordHash { get; set; }
     }

@@ -11,7 +11,7 @@ namespace WebApp.Controllers
     [Route("Api/[controller]")]
     public class AppController : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("[action]")]
         public IActionResult Ping()
         {
             return Ok("Pong");

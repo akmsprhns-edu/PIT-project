@@ -13,7 +13,7 @@ namespace Application.Core.DbContexts
         public MainDbContext(DbContextOptions<MainDbContext> options) 
             : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         public DbSet<AppUser> AppUsers { get; set; }

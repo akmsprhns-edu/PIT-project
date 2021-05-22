@@ -15,7 +15,7 @@ namespace Application.Core.DbEntities
 
         [Required]
         public string Name { get; set; }
-        public long ParentCategoryId { get; set; }
+        public long? ParentCategoryId { get; set; }
 
         [ForeignKey("ParentCategoryId")]
         public AdvertCategory ParentCategory { get; set; }
