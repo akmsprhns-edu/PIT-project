@@ -1,16 +1,25 @@
-<p>login works!</p>
 
-<form class="login-form">
-  <mat-form-field class="login-full-width">
+<form class="login-form"  [formGroup]="form" (ngSubmit)="submit()">
+  <mat-error *ngIf="formError">
+    {{formError}}
+  </mat-error>
+  <mat-form-field class="full-width">
     <mat-label>E-pasts</mat-label>
-    <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+    <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
            placeholder="Ex. pat@example.com">
-    <mat-hint>E-pasts</mat-hint>
-    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+    <mat-error *ngIf="form.controls.email.hasError('email') && !form.controls.email.hasError('required')">
       Nepareizs epasta formāts 
     </mat-error>
-    <mat-error *ngIf="emailFormControl.hasError('required')">
+    <mat-error *ngIf="form.controls.email.hasError('required')">
       Ievadiet E-pastu!
     </mat-error>
   </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Parole</mat-label>
+    <input type="password" matInput formControlName="password" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="form.controls.password.hasError('required')">
+      Ievadiet Paroli!
+    </mat-error>
+  </mat-form-field>
+  <button mat-stroked-button type="submit" [disabled]="!form.valid || inProgress">Pievienoties</button>
 </form>

@@ -20,13 +20,14 @@ namespace WebApp.Controllers
         {
             _dbContext = dbContext;
         }
+
         [HttpPost("[action]")]
         public async Task<IActionResult> Register([FromBody] RegisterCredentialsModel creds)
         {
             var existingUser = await _dbContext.AppUsers.FirstOrDefaultAsync(x => x.Email == creds.Email);
             if(existingUser != null)
             {
-                return Ok(new BaseResponseModel()
+                return Json(new BaseResponseModel()
                 {
                     Success = false,
                     Error = "Epasts aizņemts!"
@@ -42,7 +43,34 @@ namespace WebApp.Controllers
 
             await _dbContext.SaveChangesAsync();
 
-            return Ok(new BaseResponseModel());
+            return Json(new BaseResponseModel());
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Login([FromBody] RegisterCredentialsModel creds)
+        {
+            var existingUser = await _dbContext.AppUsers.FirstOrDefaultAsync(x => x.Email == creds.Email);
+            if (existingUser == null)
+            {
+                return Json(new BaseResponseModel()
+                {
+                    Success = false,
+                    Error = "Lietotājs nav atrasts!"
+                });
+            }
+
+            if(existingUser.PasswordHash != AuthUtils.GetHashString(creds.Password)){
+                return Json(new BaseResponseModel()
+                {
+                    Success = false,
+                    Error = "Nepareiza parole!"
+                });
+            };
+
+            return Json(new LoginResponseModel()
+            {
+                Token = "eeee"
+            });
         }
 
 
