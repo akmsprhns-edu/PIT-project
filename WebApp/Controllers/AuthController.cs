@@ -74,7 +74,7 @@ namespace WebApp.Controllers
 
             return Json(new LoginResponseModel()
             {
-                Token = AuthUtils.GenerateJSONWebToken(_configuration["Jwt:Key"]),
+                Token = AuthUtils.GenerateJSONWebToken(_configuration["Jwt:Key"], user.Id),
                 Email = user.Email
             });
         }

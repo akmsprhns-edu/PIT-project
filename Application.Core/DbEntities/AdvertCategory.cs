@@ -19,5 +19,7 @@ namespace Application.Core.DbEntities
 
         [ForeignKey("ParentCategoryId")]
         public AdvertCategory ParentCategory { get; set; }
+
+        public List<AdvertCategory> SubCategories { get; set; }
     }
 }

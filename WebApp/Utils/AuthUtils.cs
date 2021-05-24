@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,18 +27,26 @@ namespace WebApp.Utils
             return sb.ToString();
         }
 
-        public static string GenerateJSONWebToken(string jwtKey)
+        public static string GenerateJSONWebToken(string jwtKey, long userId)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var tokenHandler = new JwtSecurityTokenHandler();
 
-            var token = new JwtSecurityToken(null,
-              null,
-              null,
-              expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserId", userId.ToString()),
+                    }),
+                Expires = DateTime.Now.AddMinutes(120),
+                Issuer = null,
+                Audience = null,
+                SigningCredentials = credentials
+            };
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
     }

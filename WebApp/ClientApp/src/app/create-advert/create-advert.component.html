@@ -1,0 +1,57 @@
+<h2>Izveidot jaunu sludinājumu</h2>
+<form class="create-advert-form" [formGroup]="form" (ngSubmit)="submit()">
+  <mat-error *ngIf="formError">
+    {{formError}}
+  </mat-error>
+  <mat-form-field class="w-50">
+    <mat-label>Sludinājuma nosaukums</mat-label>
+    <input type="text" matInput formControlName="title" maxlength="50" [errorStateMatcher]="matcher">
+    <mat-hint align="end">{{form.controls.title.value.length}} / 50</mat-hint>
+    <mat-error *ngIf="form.controls.title.hasError('required')">
+      Ievadiet nosaukumu!
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="w-100">
+    <mat-label>Apraksts</mat-label>
+    <textarea class="description-textarea" matInput formControlName="description" [errorStateMatcher]="matcher"></textarea>
+    <mat-error *ngIf="form.controls.description.hasError('required')">
+      Ievadiet aprakstu!
+    </mat-error>
+  </mat-form-field>
+  <div>
+    <mat-form-field>
+      <mat-label>Kategorija</mat-label>
+      <mat-select formControlName="category">
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category">{{category.name}}</mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="form.controls.category.hasError('required')">
+        Izveleties kategoriju!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="ms-3">
+      <mat-label>Apakškategorija</mat-label>
+      <mat-select formControlName="subCategory">
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let category of subCategories" [value]="category">{{category.name}}</mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="form.controls.subCategory.hasError('required')">
+        Izveleties apakškategoriju!
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>Cena</mat-label>
+      <input type="number" matInput formControlName="price">
+      <span matSuffix>EUR</span>
+      <mat-error *ngIf="form.controls.price.hasError('required')">
+        Ievadiet cenu!
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <button mat-stroked-button type="submit" [disabled]="!form.valid || inProgress">Izveidot</button>
+</form>

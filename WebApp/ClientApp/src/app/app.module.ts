@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app-material/app-material.module'
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { CreateAdvertComponent } from './create-advert/create-advert.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
     NavMenuComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    CreateAdvertComponent
   ],
   imports: [
     AppMaterialModule,
@@ -31,7 +33,8 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
       [
         { path: '', component: HomeComponent, pathMatch: 'full' },
         { path: 'Login', component: LoginComponent },
-        { path: 'Register', component: RegisterComponent }
+        { path: 'Register', component: RegisterComponent },
+        { path: 'CreateAdvert', component: CreateAdvertComponent }
       ]
     ),
     BrowserAnimationsModule
