@@ -1,5 +1,5 @@
 <h2>Izveidot jaunu sludinājumu</h2>
-<form class="create-advert-form" [formGroup]="form" (ngSubmit)="submit()">
+<form *ngIf="!submitted" class="create-advert-form" [formGroup]="form" (ngSubmit)="submit()">
   <mat-error *ngIf="formError">
     {{formError}}
   </mat-error>
@@ -53,5 +53,12 @@
       </mat-error>
     </mat-form-field>
   </div>
+  <div class="py-3">
+    <div>
+      <input type="file" (change)="onFileChange($event)" multiple /> 
+    </div>
+    <span>{{selectedFiles}}</span>
+  </div>
   <button mat-stroked-button type="submit" [disabled]="!form.valid || inProgress">Izveidot</button>
 </form>
+<h3 *ngIf="submitted">Sludinājums izveidots!</h3>

@@ -35,9 +35,12 @@ export class CreateAdvertComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  private files: FileList
 
   public formError = "";
   public inProgress = false;
+  public submitted = false;
+
 
   public form = new FormGroup({
     title: new FormControl('', [
@@ -65,6 +68,14 @@ export class CreateAdvertComponent implements OnInit {
     return null;
   }
 
+  get selectedFiles() : string {
+    if(!this.files || this.files.length < 1){
+      return ""
+    } else {
+      return Array.from(this.files).map(x => x.name).join("; ")
+    }
+  }
+
   selectFormControl = new FormControl('', Validators.required);
 
   public matcher = new MyErrorStateMatcher();
@@ -72,19 +83,27 @@ export class CreateAdvertComponent implements OnInit {
   public submit() {
     if(!this.form.valid){
       return;
+    }else if(this.files.length > 10){
+      this.formError = "Atļauts pievienot ne vairāk ka 10 attēlus"
+      return;
     } else {
-      let data=  <NewAdvertModel>{
-        title: this.form.value.title,
-        description: this.form.value.description,
-        categoryId: (<AdvertCategory>this.form.value.subCategory).id,
-        price: this.form.value.price
+      let data = new FormData();
+      data.append('title', this.form.value.title);
+      data.append('description', this.form.value.description);
+      data.append('categoryId', (<AdvertCategory>this.form.value.subCategory).id.toString());
+      data.append('price', this.form.value.price);
+      if(this.files){
+        for(let i = 0;i<this.files.length;i++){
+          data.append('images', this.files[i], this.files[i].name)
+        }
       }
       this.inProgress = true;
       this.httpClient.post<BaseResponse>(environment.baseUrl + '/Api/Main/CreateAdvert', data).subscribe(result => {
         if(!result.success){
           this.formError = result.error;
         } else {
-          this.router.navigateByUrl('/')
+          //this.router.navigateByUrl('/')
+          this.submitted = true;
         }
         this.inProgress = false;
       }, error => {
@@ -92,6 +111,14 @@ export class CreateAdvertComponent implements OnInit {
         this.inProgress = false;
       })
     }
+  }
+
+
+
+
+
+  onFileChange(event) {
+    this.files = event.target.files
   }
 
 }

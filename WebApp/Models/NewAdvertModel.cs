@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.Models
 {
@@ -13,5 +15,7 @@ namespace WebApp.Models
         public long CategoryId { get; set; }
         [Required]
         public decimal Price { get; set; }
+
+        public List<IFormFile> Images { get; set; }
     }
 }

@@ -25,7 +25,7 @@
             [routerLinkActive]="['link-active']"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+            <a class="nav-link text-dark" [routerLink]="['/']">Sākums</a>
           </li>
           <li class="nav-item" *ngIf="currentUser" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/CreateAdvert']"
@@ -34,17 +34,17 @@
           </li>
           <li class="nav-item" *ngIf="!currentUser" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/Login']"
-              >Login</a
+              >Ieiet</a
             >
           </li>
           <li class="nav-item" *ngIf="!currentUser" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/Register']"
-              >Register</a
+              >Reģistrēties</a
             >
           </li>
           <li class="nav-item" *ngIf="currentUser" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" (click)="logout()"
-              >Logout</a
+            <a class="nav-link text-dark" (click)="logout()" href="javascript:;"
+              >Iziet</a
             >
           </li>
           <li class="nav-item" *ngIf="currentUser" >
