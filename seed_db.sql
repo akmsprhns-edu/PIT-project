@@ -1,0 +1,11 @@
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'Datortehnika', NULL);
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'Portatīvie datori', 1);
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'Personālie datori', 1);
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'Monitori', 1);
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'Datoru komponentes', NULL);
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'CPU', 5);
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'GPU', 5);
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'RAM', 5);
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'Sadzīves tehnika', NULL);
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'Mazā sadzīves tehnika', 9);
+INSERT INTO [AdvertCategories] ([Name],[ParentCategoryId] ) VALUES (N'Lielā sadzīves tehnika', 9);

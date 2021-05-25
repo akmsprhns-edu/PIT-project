@@ -46,7 +46,8 @@ namespace WebApp.Controllers
                 Title = data.Title,
                 Descirption = data.Description,
                 DateCreated = DateTime.Now,
-                Price = data.Price
+                Price = data.Price,
+                CategoryId = data.CategoryId
             };
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -92,6 +93,39 @@ namespace WebApp.Controllers
             await _dbContext.SaveChangesAsync();
 
             return Json(new BaseResponseModel());
+        }
+
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> GetAdverts([FromBody] GetAdvertsRequestModel request)
+        {
+            var query = _dbContext.AdvertItems.Include(x => x.Images).Include(x => x.Category).AsQueryable();
+            if (request.CategoryId != null)
+            {
+                query = query.Where(x => x.CategoryId == request.CategoryId.Value || x.Category.ParentCategoryId == request.CategoryId.Value);
+            }
+
+            if (request.SortOrder is null || request.SortOrder == SortOrder.DateAsc)
+                query = query.OrderBy(x => x.DateCreated);
+            else if ( request.SortOrder == SortOrder.DateDesc)
+                query = query.OrderByDescending(x => x.DateCreated);
+            else if (request.SortOrder == SortOrder.PriceAsc)
+                query = query.OrderBy(x => x.Price);
+            else if (request.SortOrder == SortOrder.PriceDesc)
+                query = query.OrderByDescending(x => x.Price);
+
+            var data = await query.ToListAsync();
+
+            var response = data.Select(x => new AdvertShortInfoModel()
+            {
+                AdvertId = x.Id,
+                Title = x.Title,
+                Price = x.Price,
+                ImagePath = x.Images.FirstOrDefault()?.Path
+            });
+
+            return Json(response);
+
         }
     }
 }

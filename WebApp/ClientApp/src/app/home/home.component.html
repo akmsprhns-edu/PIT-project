@@ -1,2 +1,5 @@
-<p>home works!</p>
-<button (click)="pingAuth()">Ping Auth</button>
+
+<!--<button (click)="pingAuth()">Ping Auth</button>-->
+<div *ngFor="let category of categories">
+  <a [routerLink]="['/SearchCategory', category.id]">{{category.name}}</a>
+</div>

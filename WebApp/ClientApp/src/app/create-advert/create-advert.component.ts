@@ -83,7 +83,7 @@ export class CreateAdvertComponent implements OnInit {
   public submit() {
     if(!this.form.valid){
       return;
-    }else if(this.files.length > 10){
+    }else if(this.files?.length > 10){
       this.formError = "Atļauts pievienot ne vairāk ka 10 attēlus"
       return;
     } else {
@@ -112,11 +112,7 @@ export class CreateAdvertComponent implements OnInit {
       })
     }
   }
-
-
-
-
-
+  
   onFileChange(event) {
     this.files = event.target.files
   }

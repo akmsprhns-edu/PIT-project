@@ -22,8 +22,16 @@ namespace Application.Core.DbEntities
         [Required]
         public decimal Price { get; set; }
 
+        [Required]
+        public long CategoryId { get; set; }
+
 
         [ForeignKey("UserId")]
         public AppUser User { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public AdvertCategory Category { get; set; }
+
+        public List<AdvertImage> Images { get; set; }
     }
 }

@@ -1,0 +1,46 @@
+
+<div *ngIf="category; else loading">
+  <h2>{{category.name}}</h2>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Apakškategorija</mat-label>
+      <mat-select [formControl]="subCategory" (selectionChange)="loadData()">
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let category of subCategories" [value]="category">{{category.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Kārtot pēc</mat-label>
+      <mat-select [formControl]="sortOrder" (selectionChange)="loadData()">
+        <mat-option value="DateAsc">Datuma ↓</mat-option>
+        <mat-option value="DateDesc">Datuma ↑</mat-option>
+        <mat-option value="PriceAsc">Cenas ↓</mat-option>
+        <mat-option value="PriceDesc">Cenas ↑</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="adverts; else loading" class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+      <div *ngFor="let advert of adverts" class="col">
+        
+        <mat-card >
+          <img *ngIf="advert.imagePath" class="advert-image" mat-card-image [src]="getFullUrl(advert.imagePath)">
+          <img *ngIf="!advert.imagePath" class="advert-image" mat-card-image src="/assets/images/noimage.jpg">
+          <mat-card-content>
+            <p>
+              {{advert.title}}
+            </p>
+            <p class="fw-bold">
+              {{advert.price}} EUR
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #loading>
+  <mat-spinner class="ms-auto me-auto"></mat-spinner>
+</ng-template>
