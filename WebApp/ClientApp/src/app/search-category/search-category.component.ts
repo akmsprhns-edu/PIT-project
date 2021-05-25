@@ -14,14 +14,11 @@ import { AdvertCategory } from '../_models/db_models';
 })
 export class SearchCategoryComponent implements OnInit {
 
-
   private id: number
-
   public adverts: AdvertShortInfo[];
   public category: AdvertCategory;
   public subCategory = new FormControl();
   public sortOrder = new FormControl();
-  public loading = true;
 
   constructor(private httpClient: HttpClient, private route: ActivatedRoute) { }
 
@@ -45,7 +42,6 @@ export class SearchCategoryComponent implements OnInit {
     }
     this.httpClient.post<AdvertShortInfo[]>(environment.baseUrl + '/Api/Main/GetAdverts',requestData).subscribe(result => {
       this.adverts = result;
-      this.loading = false;
     }, error => {
       console.error(error)
     });

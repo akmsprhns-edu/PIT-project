@@ -21,5 +21,7 @@ namespace Application.Core.DbEntities
         public AdvertCategory ParentCategory { get; set; }
 
         public List<AdvertCategory> SubCategories { get; set; }
+
+        public bool Active { get; set; } = true;
     }
 }

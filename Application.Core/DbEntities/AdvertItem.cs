@@ -25,6 +25,8 @@ namespace Application.Core.DbEntities
         [Required]
         public long CategoryId { get; set; }
 
+        public bool Active { get; set; } = true;
+
 
         [ForeignKey("UserId")]
         public AppUser User { get; set; }

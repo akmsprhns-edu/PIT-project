@@ -15,6 +15,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { CreateAdvertComponent } from './create-advert/create-advert.component';
 import { SearchCategoryComponent } from './search-category/search-category.component';
+import { AdvertInfoComponent } from './advert-info/advert-info.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SearchCategoryComponent } from './search-category/search-category.compo
     RegisterComponent,
     HomeComponent,
     CreateAdvertComponent,
-    SearchCategoryComponent
+    SearchCategoryComponent,
+    AdvertInfoComponent
   ],
   imports: [
     AppMaterialModule,
@@ -37,7 +39,8 @@ import { SearchCategoryComponent } from './search-category/search-category.compo
         { path: 'Login', component: LoginComponent },
         { path: 'Register', component: RegisterComponent },
         { path: 'CreateAdvert', component: CreateAdvertComponent },
-        { path: 'SearchCategory/:id', component: SearchCategoryComponent }
+        { path: 'SearchCategory/:id', component: SearchCategoryComponent },
+        { path: 'AdvertInfo/:id', component:AdvertInfoComponent }
       ]
     ),
     BrowserAnimationsModule

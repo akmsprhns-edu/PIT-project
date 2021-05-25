@@ -27,7 +27,11 @@ namespace WebApp.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetRootCategories()
         {
-            var categories = await _dbContext.AdvertCategories.Include(x => x.SubCategories).Where(x => x.ParentCategoryId == null).ToListAsync();
+            var categories = await _dbContext.AdvertCategories
+                .Include(x => x.SubCategories)
+                .Where(x => x.Active)
+                .Where(x => x.ParentCategoryId == null)
+                .ToListAsync();
             return Json(categories);
         }
 
@@ -99,7 +103,7 @@ namespace WebApp.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> GetAdverts([FromBody] GetAdvertsRequestModel request)
         {
-            var query = _dbContext.AdvertItems.Include(x => x.Images).Include(x => x.Category).AsQueryable();
+            var query = _dbContext.AdvertItems.Include(x => x.Images).Include(x => x.Category).Where(x => x.Active).AsQueryable();
             if (request.CategoryId != null)
             {
                 query = query.Where(x => x.CategoryId == request.CategoryId.Value || x.Category.ParentCategoryId == request.CategoryId.Value);
@@ -125,7 +129,28 @@ namespace WebApp.Controllers
             });
 
             return Json(response);
-
         }
+
+        [HttpGet("[action]/{id:long}")]
+        public async Task<IActionResult> GetAdvertInfo([FromRoute] long id)
+        {
+            var advert = await _dbContext.AdvertItems.Include(x => x.Images).FirstOrDefaultAsync(x => x.Id == id);
+            if(advert is null)
+            {
+                return NotFound();
+            }
+
+            var respose = new AdvertFullInfoModel()
+            {
+                AdvertId = advert.Id,
+                Title = advert.Title,
+                Description = advert.Descirption,
+                Price = advert.Price,
+                Images = advert.Images.Select(x => x.Path).ToList(),
+                DateCreated = advert.DateCreated
+            };
+            return Json(respose);
+        }
+
     }
 }

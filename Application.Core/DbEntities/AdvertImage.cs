@@ -21,5 +21,7 @@ namespace Application.Core.DbEntities
 
         [Required]
         public string Path { get; set; }
+
+        public bool Active { get; set; } = true;
     }
 }
